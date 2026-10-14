@@ -13,7 +13,6 @@ body { text-rendering: optimizeLegibility; }
 
 /* Browser surfaces carry the design too */
 ::selection { background: #17150e; color: #f7e400; }
-.canon ::selection { background: #0f766e; color: #fff; }
 :focus-visible { outline: 3px solid currentColor; outline-offset: 3px; border-radius: 4px; }
 input[type="range"] { caret-color: currentColor; }
 .tnum { font-variant-numeric: tabular-nums; }

@@ -4,8 +4,8 @@ Cotizador interno de toboganes (fibra) por metro lineal + panel administrativo s
 
 - **Fórmula (provisional):** `total = longitud (m) × precio del tipo`
 - **Valores iniciales:** recto `800.000` COP/m · curvo `1.000.000` COP/m
-- **Stack:** Astro 7 (SSR, última versión) + Tailwind/shadcn-style + HonoJS (`src/lib/hono-app.ts`, rutas `/api/prices`, `/api/quote`) · despliegue Render plan free (`render.yaml`)
-- **Versiones:** `/` = Señalética taller (principal) · `/canon` = Canon shadcn (alternativa)
+- **Stack:** Astro 7 (SSR) + Tailwind + HonoJS (`src/lib/hono-app.ts`, rutas `/api/prices`, `/api/quote`) · despliegue Render plan free (`render.yaml`)
+- **Versión:** `/` = Señalética taller (única)
 
 ## Uso local (Bun)
 
