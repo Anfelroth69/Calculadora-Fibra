@@ -1,0 +1,20 @@
+# Render Blueprint — plan free (un solo Web Service: Astro SSR + Hono API)
+# Pásame tus credenciales / conecta el repo y usa este archivo, o crea el servicio manual con estos valores.
+services:
+  - type: web
+    name: calculadora-fibra
+    runtime: node
+    plan: free
+    buildCommand: bun install && bun run build
+    startCommand: bun run start
+    envVars:
+      - key: HOST
+        value: 0.0.0.0
+      - key: PORT
+        value: 10000
+      # Valores iniciales (editables luego en /admin sin redeploy; efímeros en plan free):
+      - key: PRECIO_RECTO
+        value: 800000
+      - key: PRECIO_CURVO
+        value: 1000000
+    healthCheckPath: /api/prices
