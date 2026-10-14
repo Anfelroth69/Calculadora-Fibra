@@ -1,0 +1,186 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Calculadora Fibra · Cotizador" theme="senaletica">
+  <div class="bg-[#17150e] text-[#faf5e6]">
+    <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2 px-4 py-3 sm:px-6">
+      <p class="font-display text-sm font-semibold uppercase tracking-[0.22em]">Taller · Cotizador interno</p>
+      <nav aria-label="Versiones" class="flex items-center gap-2 text-sm">
+        <a href="/canon" class="rounded-full border border-[#faf5e6]/40 px-3 py-1 font-medium hover:border-[#f7e400] hover:text-[#f7e400]">Canon shadcn</a>
+        <span class="rounded-full border border-[#f7e400] px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#f7e400]">Sin login · provisional</span>
+      </nav>
+    </div>
+  </div>
+
+  <div class="mx-auto max-w-6xl px-4 pb-20 pt-8 sm:px-6">
+    <header>
+      <p class="text-xs font-bold uppercase tracking-[0.2em]">Toboganes en fibra · por metro lineal</p>
+      <h1 id="calc-title" class="font-display mt-2 max-w-3xl text-5xl font-bold uppercase leading-[0.95] tracking-tight sm:text-7xl">Cotiza tu tobogán</h1>
+      <p id="calc-note" class="mt-3 max-w-xl text-sm font-medium">Valores provisionales por metro lineal.</p>
+      <div class="mt-4 flex gap-2" role="tablist" aria-label="Secciones">
+        <button id="tab-quote" role="tab" aria-selected="true" class="rounded-full bg-[#17150e] px-5 py-2 text-sm font-bold uppercase tracking-wider text-[#f7e400]">Cotizar</button>
+        <button id="tab-admin" role="tab" aria-selected="false" class="rounded-full border-2 border-[#17150e] px-5 py-2 text-sm font-bold uppercase tracking-wider">Administración</button>
+      </div>
+    </header>
+
+    <main class="mt-6 grid gap-5 lg:grid-cols-[1.25fr_1fr]">
+      <section id="panel-quote" role="tabpanel" aria-labelledby="tab-quote" class="rounded-2xl border-[3px] border-[#17150e] bg-white p-6 shadow-[6px_6px_0_#17150e]">
+        <div class="flex items-center justify-between">
+          <h2 class="font-display text-xl font-bold uppercase tracking-wide">1 · Tipo de tobogán</h2>
+          <span class="rounded-full bg-[#17150e] px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#f7e400]">Paso 1</span>
+        </div>
+        <div class="mt-3 grid grid-cols-2 gap-3" role="radiogroup" aria-label="Tipo">
+          <button id="type-recto" role="radio" aria-checked="true" class="rounded-xl border-[3px] border-[#17150e] bg-[#f7e400] p-4 text-left">
+            <span class="font-display block text-2xl font-bold uppercase">Recto</span>
+            <span id="price-recto-label" class="tnum mt-1 block text-sm font-bold">$ 800.000 / m</span>
+          </button>
+          <button id="type-curvo" role="radio" aria-checked="false" class="rounded-xl border-[3px] border-[#17150e] bg-white p-4 text-left">
+            <span class="font-display block text-2xl font-bold uppercase">Curvo</span>
+            <span id="price-curvo-label" class="tnum mt-1 block text-sm font-bold">$ 1.000.000 / m</span>
+          </button>
+        </div>
+
+        <div class="mt-7">
+          <div class="flex items-center justify-between">
+            <h2 class="font-display text-xl font-bold uppercase tracking-wide">2 · Longitud</h2>
+            <span class="rounded-full bg-[#17150e] px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#f7e400]">Paso 2</span>
+          </div>
+          <div class="mt-2 flex items-end justify-between gap-3">
+            <label for="longitud-num" class="text-sm font-bold uppercase tracking-wider">Longitud (metros)</label>
+            <div class="flex items-center gap-2">
+              <input id="longitud-num" type="number" min="1" max="30" step="0.5" value="5"
+                class="tnum w-28 rounded-lg border-[3px] border-[#17150e] px-3 py-1.5 text-right text-2xl font-bold" />
+              <span class="font-display text-2xl font-bold">m</span>
+            </div>
+          </div>
+          <input id="longitud" type="range" min="1" max="30" step="0.5" value="5" class="mt-3 w-full accent-[#17150e]" aria-label="Longitud en metros" />
+          <p id="range-hint" class="mt-1 text-xs font-bold">Rango: 1 – 30 m</p>
+          <p id="quote-error" class="mt-2 hidden rounded-lg bg-red-600 px-3 py-2 text-sm font-bold text-white" role="alert"></p>
+        </div>
+
+        <dl class="tnum mt-6 grid grid-cols-3 gap-2 text-center text-sm font-bold">
+          <div class="rounded-xl border-2 border-[#17150e] px-2 py-3"><dt class="text-[11px] uppercase tracking-wider opacity-60">Unitario</dt><dd id="d-unit" class="mt-1">$ 800.000</dd></div>
+          <div class="rounded-xl border-2 border-[#17150e] px-2 py-3"><dt class="text-[11px] uppercase tracking-wider opacity-60">Longitud</dt><dd id="d-len" class="mt-1">5 m</dd></div>
+          <div class="rounded-xl bg-[#17150e] px-2 py-3 text-[#f7e400]"><dt class="text-[11px] uppercase tracking-wider opacity-70">Tipo</dt><dd id="d-type" class="mt-1 uppercase">Recto</dd></div>
+        </dl>
+      </section>
+
+      <aside class="flex flex-col gap-5">
+        <section class="rounded-2xl border-[3px] border-[#17150e] bg-[#17150e] p-6 text-[#faf5e6] shadow-[6px_6px_0_rgba(23,21,14,0.25)]" aria-live="polite">
+          <p class="text-xs font-bold uppercase tracking-[0.2em] text-[#f7e400]">Total estimado · COP</p>
+          <p id="total" class="tnum font-display mt-2 text-6xl font-bold tracking-tight text-[#f7e400]">$ 4.000.000</p>
+          <p class="mt-2 text-sm font-medium opacity-80">precio = longitud × valor por metro</p>
+          <div class="mt-4 flex flex-wrap gap-2">
+            <button id="copy" class="rounded-full bg-[#f7e400] px-5 py-2.5 text-sm font-bold uppercase tracking-wider text-[#17150e] hover:brightness-95">Copiar cotización</button>
+            <a id="wa" href="#" target="_blank" rel="noreferrer" class="rounded-full border-2 border-[#faf5e6]/50 px-5 py-2 text-sm font-bold uppercase tracking-wider hover:border-[#f7e400] hover:text-[#f7e400]">WhatsApp</a>
+          </div>
+          <p id="copy-ok" class="mt-2 hidden text-xs font-bold uppercase tracking-wider text-[#f7e400]">Copiada al portapapeles.</p>
+        </section>
+
+        <section id="panel-admin" role="tabpanel" aria-labelledby="tab-admin" class="hidden rounded-2xl border-[3px] border-[#17150e] bg-[#f7e400] p-6 shadow-[6px_6px_0_#17150e]">
+          <h2 class="font-display text-xl font-bold uppercase">Administración de valores</h2>
+          <p class="mt-1 text-xs font-semibold">Sin login (provisional). Guardar aplica de inmediato a la cotización.</p>
+          <form id="admin-form" class="mt-4 grid min-w-0 grid-cols-1 gap-3 text-sm font-bold min-[420px]:grid-cols-2">
+            <label class="grid min-w-0 gap-1 uppercase text-xs tracking-wider">Recto $/m<input id="f-recto" required type="number" min="1" step="1000" class="tnum block w-full min-w-0 rounded-lg border-[3px] border-[#17150e] px-3 py-2 text-base normal-case" /></label>
+            <label class="grid min-w-0 gap-1 uppercase text-xs tracking-wider">Curvo $/m<input id="f-curvo" required type="number" min="1" step="1000" class="tnum block w-full min-w-0 rounded-lg border-[3px] border-[#17150e] px-3 py-2 text-base normal-case" /></label>
+            <label class="grid min-w-0 gap-1 uppercase text-xs tracking-wider">Mín (m)<input id="f-min" required type="number" min="0.5" step="0.5" class="block w-full min-w-0 rounded-lg border-[3px] border-[#17150e] px-3 py-2 text-base normal-case" /></label>
+            <label class="grid min-w-0 gap-1 uppercase text-xs tracking-wider">Máx (m)<input id="f-max" required type="number" max="100" step="0.5" class="block w-full min-w-0 rounded-lg border-[3px] border-[#17150e] px-3 py-2 text-base normal-case" /></label>
+            <label class="col-span-full grid min-w-0 gap-1 uppercase text-xs tracking-wider">Título<input id="f-titulo" type="text" maxlength="80" class="block w-full min-w-0 rounded-lg border-[3px] border-[#17150e] px-3 py-2 text-base font-medium normal-case" /></label>
+            <label class="col-span-full grid min-w-0 gap-1 uppercase text-xs tracking-wider">Nota<input id="f-nota" type="text" maxlength="160" class="block w-full min-w-0 rounded-lg border-[3px] border-[#17150e] px-3 py-2 text-base font-medium normal-case" /></label>
+            <button class="col-span-full rounded-full bg-[#17150e] px-4 py-3 text-sm font-bold uppercase tracking-wider text-[#f7e400] disabled:opacity-50">Guardar valores</button>
+          </form>
+          <p id="admin-msg" class="mt-2 hidden text-sm font-bold" role="status"></p>
+          <p id="admin-updated" class="mt-1 text-xs font-semibold opacity-70"></p>
+        </section>
+
+        <p class="rounded-2xl border-2 border-dashed border-[#17150e]/40 p-4 text-xs font-medium">
+          Uso interno del taller · valores editables en Administración.
+        </p>
+      </aside>
+    </main>
+  </div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const fmt = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
+    let cfg = { rectoPorMetro: 800000, curvoPorMetro: 1000000, longitudMin: 1, longitudMax: 30, titulo: 'Cotiza tu tobogán', nota: 'Valores provisionales por metro lineal.', updatedAt: '' };
+    let tipo = 'recto';
+
+    async function load() {
+      try { const r = await fetch('/api/prices'); if (r.ok) cfg = await r.json(); } catch {}
+      applyConfig();
+    }
+    function applyConfig() {
+      $('calc-title').textContent = cfg.titulo || 'Cotiza tu tobogán';
+      $('calc-note').textContent = cfg.nota || '';
+      $('price-recto-label').textContent = fmt.format(cfg.rectoPorMetro) + ' / m';
+      $('price-curvo-label').textContent = fmt.format(cfg.curvoPorMetro) + ' / m';
+      for (const id of ['longitud', 'longitud-num']) { $(id).min = cfg.longitudMin; $(id).max = cfg.longitudMax; }
+      $('range-hint').textContent = `Rango: ${cfg.longitudMin} – ${cfg.longitudMax} m`;
+      $('f-recto').value = cfg.rectoPorMetro; $('f-curvo').value = cfg.curvoPorMetro;
+      $('f-min').value = cfg.longitudMin; $('f-max').value = cfg.longitudMax;
+      $('f-titulo').value = cfg.titulo || ''; $('f-nota').value = cfg.nota || '';
+      $('admin-updated').textContent = cfg.updatedAt ? 'Actualizado: ' + new Date(cfg.updatedAt).toLocaleString('es-CO') : '';
+      render();
+    }
+    function setTipo(t) {
+      tipo = t;
+      const isR = t === 'recto';
+      $('type-recto').setAttribute('aria-checked', isR);
+      $('type-curvo').setAttribute('aria-checked', !isR);
+      $('type-recto').className = 'rounded-xl border-[3px] border-[#17150e] p-4 text-left ' + (isR ? 'bg-[#f7e400]' : 'bg-white');
+      $('type-curvo').className = 'rounded-xl border-[3px] border-[#17150e] p-4 text-left ' + (!isR ? 'bg-[#f7e400]' : 'bg-white');
+      render();
+    }
+    function render() {
+      const len = parseFloat($('longitud-num').value);
+      const err = $('quote-error');
+      const unit = tipo === 'recto' ? cfg.rectoPorMetro : cfg.curvoPorMetro;
+      if (!Number.isFinite(len) || len <= 0) { err.textContent = 'Ingresa una longitud válida mayor a 0.'; err.classList.remove('hidden'); return; }
+      if (len < cfg.longitudMin || len > cfg.longitudMax) {
+        err.textContent = `La longitud debe estar entre ${cfg.longitudMin} y ${cfg.longitudMax} m.`; err.classList.remove('hidden');
+      } else err.classList.add('hidden');
+      $('longitud').value = Math.min(cfg.longitudMax, Math.max(cfg.longitudMin, len));
+      $('d-unit').textContent = fmt.format(unit);
+      $('d-len').textContent = len + ' m';
+      $('d-type').textContent = tipo === 'recto' ? 'Recto' : 'Curvo';
+      $('total').textContent = fmt.format(len * unit);
+      $('wa').href = 'https://wa.me/?text=' + encodeURIComponent(`${cfg.titulo}: tobogán ${tipo} de ${len} m = ${fmt.format(len * unit)} COP (${fmt.format(unit)}/m)`);
+    }
+    $('type-recto').addEventListener('click', () => setTipo('recto'));
+    $('type-curvo').addEventListener('click', () => setTipo('curvo'));
+    $('longitud').addEventListener('input', (e) => { $('longitud-num').value = e.target.value; render(); });
+    $('longitud-num').addEventListener('input', render);
+    $('copy').addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(`${$('d-type').textContent} ${$('d-len').textContent} — ${$('total').textContent} COP`); $('copy-ok').classList.remove('hidden'); setTimeout(() => $('copy-ok').classList.add('hidden'), 2000); } catch {}
+    });
+    function showTab(which) {
+      const q = which === 'quote';
+      $('panel-quote').classList.toggle('hidden', false);
+      $('panel-admin').classList.toggle('hidden', q);
+      $('tab-quote').setAttribute('aria-selected', q);
+      $('tab-admin').setAttribute('aria-selected', !q);
+      $('tab-quote').className = 'rounded-full px-5 py-2 text-sm font-bold uppercase tracking-wider ' + (q ? 'bg-[#17150e] text-[#f7e400]' : 'border-2 border-[#17150e]');
+      $('tab-admin').className = 'rounded-full px-5 py-2 text-sm font-bold uppercase tracking-wider ' + (!q ? 'bg-[#17150e] text-[#f7e400]' : 'border-2 border-[#17150e]');
+    }
+    $('tab-quote').addEventListener('click', () => showTab('quote'));
+    $('tab-admin').addEventListener('click', () => showTab('admin'));
+    $('admin-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const msg = $('admin-msg'); const btn = e.target.querySelector('button');
+      btn.disabled = true; msg.classList.remove('hidden');
+      msg.textContent = 'Guardando…'; msg.className = 'mt-2 text-sm font-bold opacity-70';
+      try {
+        const r = await fetch('/api/prices', { method: 'PUT', headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ rectoPorMetro: Number($('f-recto').value), curvoPorMetro: Number($('f-curvo').value), longitudMin: Number($('f-min').value), longitudMax: Number($('f-max').value), titulo: $('f-titulo').value, nota: $('f-nota').value }) });
+        const data = await r.json();
+        if (!r.ok) throw new Error(data.error || 'No se pudo guardar');
+        cfg = data; applyConfig();
+        msg.textContent = 'Valores actualizados. La calculadora ya usa los nuevos precios.'; msg.className = 'mt-2 rounded-lg bg-[#17150e] px-3 py-2 text-sm font-bold text-[#f7e400]';
+      } catch (err) { msg.textContent = err.message; msg.className = 'mt-2 rounded-lg bg-red-600 px-3 py-2 text-sm font-bold text-white'; }
+      btn.disabled = false;
+    });
+    load();
+  </script>
+</Base>
