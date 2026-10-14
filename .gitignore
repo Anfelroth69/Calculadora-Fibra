@@ -1,0 +1,15 @@
+# Deps / build
+node_modules/
+dist/
+.astro/
+
+# Runtime local (efímero en Render free)
+data/prices.json
+
+# Tooling interno
+.impeccable/
+
+# OS / editores
+.DS_Store
+Thumbs.db
+*.local

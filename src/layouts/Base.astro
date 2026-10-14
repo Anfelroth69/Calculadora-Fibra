@@ -1,0 +1,27 @@
+---
+interface Props {
+  title: string;
+  theme: 'canon' | 'senaletica';
+}
+const { title, theme } = Astro.props;
+import '../styles/global.css';
+---
+<!doctype html>
+<html lang="es-CO" class={theme}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content="Calculadora interna para cotizar toboganes rectos y curvos por metro lineal (COP)." />
+    {theme === 'senaletica' && (
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    )}
+  </head>
+  <body class={theme === 'canon'
+    ? 'canon min-h-screen bg-zinc-100 text-zinc-900 antialiased'
+    : 'min-h-screen bg-[#faf5e6] text-[#17150e] antialiased'}>
+    <slot />
+  </body>
+</html>
